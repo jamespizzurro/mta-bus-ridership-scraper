@@ -1,0 +1,15 @@
+{
+  "name": "mta-bus-ridership-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Pizzurro",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "cli-progress": "^3.11.2",
+    "puppeteer": "^19.4.1"
+  }
+}
