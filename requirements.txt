@@ -1,0 +1,7 @@
+puppeteer
+pyppeteer
+cli-progress
+pandas
+black
+prefect
+janitor

@@ -95,5 +95,6 @@ async function computeCsvStringFromTable(page, tableSelector, shouldIncludeRowHe
 
     await browser.close();
 
-    await writeFile("mta-bus-ridership.csv", csvString);
+    // await writeFile("../data/raw/mta_bus_ridership.csv", csvString);
+    await writeFile("data/raw/mta_bus_ridership.csv", csvString);
 })();
