@@ -52,7 +52,7 @@ def process_data(rides):
     rides["date"] = pd.to_datetime(rides["date"], format="%m/%Y")
     rides["date_end"] = rides["date"] + pd.offsets.MonthEnd(0)
     # Group the data by route and date
-    rides = rides.groupby(["route", "date"]).sum().reset_index()
+    rides = rides.groupby(["route", "date","date_end"]).sum().reset_index()
     # Drop rows where ridership is 0
     rides = rides[rides["ridership"] > 0]
     # Calculate business days in the month

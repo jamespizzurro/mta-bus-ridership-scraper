@@ -9,6 +9,17 @@ from pathlib import Path
 
 @task
 def run_node_script(script_path):
+    # Check if Node.js script exists
+    if not script_path.exists():
+        print("Node.js script does not exist")
+        return False
+    # Check if installed Node.js
+    try:
+        subprocess.run(["node", "-v"], check=True)
+    except Exception as e:
+        print(f"Failed to run Node.js: {e}")
+        return False 
+    
     try:
         subprocess.run(["node", script_path], check=True)
     except Exception as e:
@@ -35,6 +46,15 @@ def data_transform(
 
 # Run the Flow
 node_script_path = Path("node/index.js")
+# Check if raw data path exists
+if not Path("data/raw").exists():
+    print("Creating data/raw directory")
+    Path("data/raw").mkdir(parents=True)
+    
+# Check if processed data path exists
+if not Path("data/processed").exists():
+    print("Creating data/processed directory")
+    Path("data/processed").mkdir(parents=True)
 input_path = Path("data/raw/mta_bus_ridership.csv")
 output_path = Path("data/processed/mta_bus_ridership.csv")
 data_transform(
