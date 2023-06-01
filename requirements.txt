@@ -1,4 +1,5 @@
 pandas
 black
 prefect
+configparser
 janitor
