@@ -3,13 +3,19 @@ import pandas as pd
 import datetime as dt
 import calendar
 import re
-import janitor
+
+
+def clean_column_names(df):
+    df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
+    return df
 
 
 @task
 def load_data(input_file):
-    rides = pd.read_csv(input_file).clean_names()
+    rides = pd.read_csv(input_file)
+    rides = clean_column_names(rides)
     return rides
+
 
 
 def process_routes(served_routes):
