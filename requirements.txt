@@ -1,4 +1,3 @@
-cli-progress
 pandas
 black
 prefect
