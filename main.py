@@ -16,21 +16,27 @@ def clean_column_names(df):
 
 @task
 def load_data(input_file):
+    # Check if input file exists
+    if not input_file.exists():
+        print("Input file does not exist")
+        return False
     rides = pd.read_csv(input_file)
     rides = clean_column_names(rides)
     return rides
 
 
 def process_routes(served_routes):
+    citylink_pattern = re.compile("CityLink ([A-Z]+)")
     # Split routes into a list, strip whitespace, and capitalize CityLink
     modified_routes = [
-        re.sub(
-            "CityLink ([A-Z]+)",
+        citylink_pattern.sub(
             lambda match: "CityLink " + match.group(1).title(),
             route.strip(),
         )
         for route in served_routes.split(",")
     ]
+    # Join the routes back together
+    return ", ".join(modified_routes)
     # Join the routes back together
     return ", ".join(modified_routes)
 
@@ -112,6 +118,17 @@ def run_node_script(script_path):
         return False
     return True
 
+@task
+def check_for_directories():
+    # Check if raw data path exists
+    if not Path("data/raw").exists():
+        print("Creating data/raw directory")
+        Path("data/raw").mkdir(parents=True)
+
+    # Check if processed data path exists
+    if not Path("data/processed").exists():
+        print("Creating data/processed directory")
+        Path("data/processed").mkdir(parents=True)
 
 # Define the Flow
 @Flow
@@ -120,6 +137,8 @@ def data_transform(
     input_path,
     output_path,
 ):
+    # Check for directories
+    check_for_directories()
     # Run Node.js script
     run_node_script(node_script_path)
 
@@ -131,15 +150,7 @@ def data_transform(
 if __name__ == "__main__":
     # Run the Flow
     node_script_path = Path("node/index.js")
-    # Check if raw data path exists
-    if not Path("data/raw").exists():
-        print("Creating data/raw directory")
-        Path("data/raw").mkdir(parents=True)
 
-    # Check if processed data path exists
-    if not Path("data/processed").exists():
-        print("Creating data/processed directory")
-        Path("data/processed").mkdir(parents=True)
     input_path = Path("data/raw/mta_bus_ridership.csv")
     output_path = Path("data/processed/mta_bus_ridership.csv")
     data_transform(
