@@ -56,5 +56,8 @@ project/
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
+## License
+GNU General Public License v3.0
+
 ## Credits
 James Pizzurro - [MTA Bus Ridership Scraper](https://github.com/jamespizzurro/mta-bus-ridership-scraper)
