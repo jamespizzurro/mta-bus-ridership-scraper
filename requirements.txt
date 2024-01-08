@@ -1,5 +1,2 @@
-python 3.11
-pandas
-black
-prefect
-
+pandas==2.1.4
+prefect==2.14.12
