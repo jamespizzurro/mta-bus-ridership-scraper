@@ -73,3 +73,4 @@ def process_data(rides):
 def save_data(rides, output_file):
     # Save the cleaned data to a new CSV file
     rides.to_csv(output_file, index=False)
+
