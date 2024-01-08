@@ -118,6 +118,7 @@ def run_node_script(script_path):
         return False
     return True
 
+
 @task
 def check_for_directories():
     # Check if raw data path exists
@@ -129,6 +130,7 @@ def check_for_directories():
     if not Path("data/processed").exists():
         print("Creating data/processed directory")
         Path("data/processed").mkdir(parents=True)
+
 
 # Define the Flow
 @Flow
@@ -146,6 +148,7 @@ def data_transform(
     data = load_data(input_path)
     processed_data = process_data(data)
     save_data(processed_data, output_path)
+
 
 if __name__ == "__main__":
     # Run the Flow
