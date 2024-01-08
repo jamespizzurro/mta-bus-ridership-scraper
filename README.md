@@ -8,6 +8,20 @@ The scraper is a Node.js script that uses Puppeteer to automate the process of d
 
 This fork adds steps to clean the data, standardize the names of the bus routes, convert dates to a standard format, and calculate the average daily ridership for each route by month.
 
+## Data
+The raw data is found at www.mta.maryland.gov/performance-improvement
+
+After scaping the data, the raw data is stored in the `data/raw` directory. The processed data is stored in the `data/processed` directory.
+
+`data/raw/mta-bus-ridership.csv` is not committed to the repo, but looks like this:
+| **Date** | **Route** | **Ridership** |
+|----------|-----------|---------------|
+| 01/2023  | 103       | 3916          |
+| 01/2023  | 105       | 3530          |
+| 01/2023  | 115       | 4179          |
+| 01/2023  | 120       | 3887          |
+| 01/2023  | 150       | 1833          |
+
 ## Installation
 
 To set up the project, run the `setup.sh` script. This script will check for Conda and Node.js installations, create a Conda environment, install Python dependencies, and set up the necessary directories.
