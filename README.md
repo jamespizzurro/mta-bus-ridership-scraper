@@ -24,20 +24,20 @@ python main.py
 
 ## Main Components
 `main.py`
-Data Cleaning: Standardizes column names in the data.
-Data Processing: Includes functions for route processing and date-related calculations.
-Data Transformation: Applies data processing tasks to the dataset.
-Data Saving: Outputs the processed data to a CSV file.
-Node.js Integration: Runs a Node.js script as part of the data pipeline.
+- Data Cleaning: Standardizes column names in the data.
+- Data Processing: Includes functions for route processing and date-related calculations.
+- Data Transformation: Applies data processing tasks to the dataset.
+- Data Saving: Outputs the processed data to a CSV file.
+- Node.js Integration: Runs a Node.js script as part of the data pipeline.
 `setup.sh`
-Sets up the Python environment.
-Installs Python and Node.js dependencies.
-Prepares the project directory structure.
+- Sets up the Python environment.
+- Installs Python and Node.js dependencies.
+- Prepares the project directory structure.
 ## Dependencies
-Python 3.11
-Pandas
-Prefect
-Node.js (To run the browser automation script)
+- Python 3.11
+- Pandas
+- Prefect (For running the pipeline)
+- Node.js (To run the browser automation script)
 
 ## Project Structure
 ```
