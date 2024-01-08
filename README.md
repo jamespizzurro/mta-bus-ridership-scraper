@@ -13,7 +13,7 @@ The raw data is found at www.mta.maryland.gov/performance-improvement
 
 After scaping the data, the raw data is stored in the `data/raw` directory. The processed data is stored in the `data/processed` directory.
 
-`data/raw/mta-bus-ridership.csv` is not committed to the repo, but looks like this:
+`data/raw/mta_bus_ridership.csv` is not committed to the repo, but looks like this:
 | **Date** | **Route** | **Ridership** |
 |----------|-----------|---------------|
 | 01/2023  | 103       | 3916          |
