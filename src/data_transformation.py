@@ -43,6 +43,13 @@ def get_business_days(date):
     business_days = pd.bdate_range(first_day, last_day).shape[0]
     return business_days
 
+def get_num_days_in_month(date):
+    # Get the last day of the month
+    last_day = dt.datetime(
+        date.year, date.month, calendar.monthrange(date.year, date.month)[1]
+    )
+    return last_day.day
+
 
 @task
 def process_data(rides):
@@ -59,6 +66,10 @@ def process_data(rides):
     rides["business_days"] = rides["date"].apply(get_business_days)
     # Normalize the ridership by the number of business days in the month
     rides["ridership_weekday"] = rides["ridership"] / rides["business_days"]
+    # Get number of days in the month
+    rides["num_days_in_month"] = rides["date"].apply(get_num_days_in_month)
+    # Get ridership per day
+    rides["ridership_per_day"] = rides["ridership"] / rides["num_days_in_month"]
     # Calculate change vs. previous years
     for i in range(1, 4):
         rides[f"change_vs_{i}_years_ago"] = (
