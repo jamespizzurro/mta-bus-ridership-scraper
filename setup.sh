@@ -5,7 +5,7 @@ set -e
 
 # Define Python version and environment name
 PYTHON_VERSION="3.11"
-ENV_NAME="myenv"
+ENV_NAME="ridership"
 
 # Check if Conda is installed
 if ! command -v conda &> /dev/null
