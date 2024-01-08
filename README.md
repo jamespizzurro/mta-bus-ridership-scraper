@@ -49,7 +49,7 @@ project/
 │   ├── raw/ - Directory for storing raw data files.
 │   └── processed/ - Directory for storing processed data.
 └── node/
-    └── index.js - Optional Node.js script for additional tasks.
+    └── index.js - Node.js script for scraping the MTA bus ridership data.
 ```
 
 ## Contributing
