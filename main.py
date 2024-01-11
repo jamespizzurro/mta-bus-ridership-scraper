@@ -4,6 +4,7 @@ import re
 import subprocess
 from pathlib import Path
 
+import boto3
 import pandas as pd
 from prefect import task
 from prefect.flows import Flow
@@ -71,9 +72,33 @@ def process_data(rides):
 
 
 @task
-def save_data(rides, output_file):
-    # Save the cleaned data to a new CSV file
-    rides.to_csv(output_file, index=False)
+def save_data(rides, output_file, format="csv"):
+    if format == "csv":
+        # Save the cleaned data to a new CSV file
+        rides.to_csv(output_file, index=False)
+    if format == "parquet":
+        # Save the cleaned data to a new Parquet file
+        rides.to_parquet(output_file, index=False)
+        
+@task
+def upload_to_s3(input_file, output_file="mta_bus_ridership.parquet"):
+    # Check if input file exists
+    if not input_file.exists():
+        print("Input file does not exist")
+        return False
+
+    rides = pd.read_csv(input_file)
+
+    # Convert DataFrame to parquet
+    parquet_file = output_file
+    rides.to_parquet(parquet_file)
+
+    # Initialize the S3 client
+    s3 = boto3.client('s3')
+
+    # Upload the parquet file to S3
+    with open(parquet_file, "rb") as data:
+        s3.upload_fileobj(data, 'transitscope-baltimore', parquet_file)
 
 
 @task
@@ -98,6 +123,7 @@ def run_node_script(script_path):
 
 
 @task
+
 def check_for_directories():
     # Check if raw data path exists
     if not Path("data/raw").exists():
@@ -113,9 +139,11 @@ def check_for_directories():
 # Define the Flow
 @Flow
 def data_transform(
+
     node_script_path,
     input_path,
     output_path,
+    to_s3=False,
 ):
     # Check for directories
     check_for_directories()
@@ -126,6 +154,9 @@ def data_transform(
     data = load_data(input_path)
     processed_data = process_data(data)
     save_data(processed_data, output_path)
+    if to_s3:
+        upload_to_s3(input_file=output_path)
+
 
 
 if __name__ == "__main__":
@@ -138,4 +169,5 @@ if __name__ == "__main__":
         node_script_path=node_script_path,
         input_path=input_path,
         output_path=output_path,
+        to_s3=True,
     )

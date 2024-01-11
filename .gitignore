@@ -102,3 +102,8 @@ dist
 
 # TernJS port file
 .tern-port
+.aws/credentials
+.vscode/settings.json
+package-lock.json
+data/raw/mta_bus_ridership.csv
+generate_file_tree.sh
