@@ -41,18 +41,6 @@ def process_routes(served_routes):
     return ", ".join(modified_routes)
 
 
-def get_business_days(date):
-    # Get the first day of the month
-    first_day = dt.datetime(date.year, date.month, 1)
-    # Get the last day of the month
-    last_day = dt.datetime(
-        date.year, date.month, calendar.monthrange(date.year, date.month)[1]
-    )
-    # Get the number of business days in the month
-    business_days = pd.bdate_range(first_day, last_day).shape[0]
-    return business_days
-
-
 def get_num_days_in_month(date):
     # Get the last day of the month
     last_day = dt.datetime(
@@ -72,23 +60,13 @@ def process_data(rides):
     rides = rides.groupby(["route", "date", "date_end"]).sum().reset_index()
     # Drop rows where ridership is 0
     rides = rides[rides["ridership"] > 0]
-    # Calculate business days in the month
-    rides["business_days"] = rides["date"].apply(get_business_days)
-    # Normalize the ridership by the number of business days in the month
-    rides["ridership_weekday"] = rides["ridership"] / rides["business_days"]
     # Get number of days in the month
     rides["num_days_in_month"] = rides["date"].apply(get_num_days_in_month)
     # Get ridership per day
     rides["ridership_per_day"] = (
         rides["ridership"] / rides["num_days_in_month"]
     )
-    # Calculate change vs. previous years
-    for i in range(1, 4):
-        rides[f"change_vs_{i}_years_ago"] = (
-            rides["ridership"]
-            / rides.groupby("route")["ridership"].shift(i * 12)
-            - 1
-        )
+
     return rides
 
 

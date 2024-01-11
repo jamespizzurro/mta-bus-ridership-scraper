@@ -22,6 +22,15 @@ After scaping the data, the raw data is stored in the `data/raw` directory. The 
 | 01/2023  | 120       | 3887          |
 | 01/2023  | 150       | 1833          |
 
+The processed data is stored in `data/processed/mta_bus_ridership.csv` and looks like this:
+| **route** | **date**   | **date_end** | **ridership** | **num_days_in_month** | **ridership_per_day** |
+|-----------|------------|--------------|---------------|-----------------------|-----------------------|
+| 103       | 2018-01-01 | 2018-01-31   | 8369.0        | 31                    | 269.96774193548384    |
+| 103       | 2018-02-01 | 2018-02-28   | 9338.0        | 28                    | 333.5                 |
+| 103       | 2018-03-01 | 2018-03-31   | 8372.0        | 31                    | 270.06451612903226    |
+| 103       | 2018-04-01 | 2018-04-30   | 8970.0        | 30                    | 299.0                 |
+| 103       | 2018-05-01 | 2018-05-31   | 9570.0        | 31                    | 308.7096774193548     |
+
 ## Installation
 
 To set up the project, run the `setup.sh` script. This script will check for Conda and Node.js installations, create a Conda environment, install Python dependencies, and set up the necessary directories.
