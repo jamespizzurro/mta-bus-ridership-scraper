@@ -1,4 +1,4 @@
-# MTA Bus Ridership Scaper
+# MTA Bus Ridership Scraper
 
 This project provides a comprehensive Python pipeline to process and analyze MTA bus ridership data. The pipeline includes data loading, cleaning, transformation, and storage, along with an integration of Node.js for additional tasks.
 
