@@ -54,8 +54,8 @@ class TestMain(unittest.TestCase):
 
     def test_save_data(self):
         
-        save_data.fn(self.output_df, Path('tests/data/test_output.csv'))
-        self.assertTrue(Path('tests/data/test_output.csv').exists())
+        save_data.fn(self.output_df, Path('tests/data/processed/test_output.csv'))
+        self.assertTrue(Path('tests/data/processed/test_output.csv').exists())
 
     def test_check_for_directories(self):
         check_for_directories.fn()

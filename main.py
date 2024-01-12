@@ -81,16 +81,16 @@ def save_data(rides, output_file, format="csv"):
 
 
 @task
-def upload_to_s3(input_file, output_file="mta_bus_ridership.parquet"):
+def upload_to_s3(file_to_upload, s3_output_filename=None,s3_bucket=None):
     # Check if input file exists
-    if not input_file.exists():
+    if not file_to_upload.exists():
         print("Input file does not exist")
         return False
 
-    ridership = pd.read_csv(input_file)
+    ridership = pd.read_csv(file_to_upload)
 
     # Convert DataFrame to parquet
-    parquet_file = output_file
+    parquet_file = s3_output_filename
     ridership.to_parquet(parquet_file)
 
     # Initialize the S3 client
@@ -98,7 +98,7 @@ def upload_to_s3(input_file, output_file="mta_bus_ridership.parquet"):
 
     # Upload the parquet file to S3
     with open(parquet_file, "rb") as data:
-        s3.upload_fileobj(data, "transitscope-baltimore", parquet_file)
+        s3.upload_fileobj(data, s3_bucket, parquet_file)
 
 
 @task
@@ -141,7 +141,8 @@ def data_transform(
     node_script_path="node/index.js",
     input_path="data/raw/mta_bus_ridership.csv",
     output_path="data/processed/mta_bus_ridership.csv",
-    to_s3=False,
+    s3_output_filename = None,
+    s3_bucket = None,
 ):
     # Check for directories
     check_for_directories()
@@ -152,9 +153,8 @@ def data_transform(
     data = load_data(input_path)
     processed_data = process_data(data)
     save_data(processed_data, output_path)
-    if to_s3:
-        upload_to_s3(input_file=output_path)
-
+    if s3_output_filename and s3_bucket:
+        upload_to_s3(output_path, s3_output_filename, s3_bucket)
 
 if __name__ == "__main__":
     # Run the Flow
@@ -166,5 +166,6 @@ if __name__ == "__main__":
         node_script_path=node_script_path,
         input_path=input_path,
         output_path=output_path,
-        to_s3=True,
+        s3_output_filename = "mta_bus_ridership.parquet",
+        s3_bucket = "transitscope-baltimore",
     )
