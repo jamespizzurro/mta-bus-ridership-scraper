@@ -1,3 +1,4 @@
+import argparse
 import calendar
 import datetime as dt
 import re
@@ -77,7 +78,8 @@ def save_data(rides, output_file, format="csv"):
     if format == "parquet":
         # Save the cleaned data to a new Parquet file
         rides.to_parquet(output_file, index=False)
-        
+
+
 @task
 def upload_to_s3(input_file, output_file="mta_bus_ridership.parquet"):
     # Check if input file exists
@@ -92,11 +94,11 @@ def upload_to_s3(input_file, output_file="mta_bus_ridership.parquet"):
     ridership.to_parquet(parquet_file)
 
     # Initialize the S3 client
-    s3 = boto3.client('s3')
+    s3 = boto3.client("s3")
 
     # Upload the parquet file to S3
     with open(parquet_file, "rb") as data:
-        s3.upload_fileobj(data, 'transitscope-baltimore', parquet_file)
+        s3.upload_fileobj(data, "transitscope-baltimore", parquet_file)
 
 
 @task
@@ -121,7 +123,6 @@ def run_node_script(script_path):
 
 
 @task
-
 def check_for_directories():
     # Check if raw data path exists
     if not Path("data/raw").exists():
@@ -137,7 +138,6 @@ def check_for_directories():
 # Define the Flow
 @Flow
 def data_transform(
-
     node_script_path="node/index.js",
     input_path="data/raw/mta_bus_ridership.csv",
     output_path="data/processed/mta_bus_ridership.csv",
@@ -154,7 +154,6 @@ def data_transform(
     save_data(processed_data, output_path)
     if to_s3:
         upload_to_s3(input_file=output_path)
-
 
 
 if __name__ == "__main__":

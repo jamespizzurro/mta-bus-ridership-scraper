@@ -1,0 +1,4 @@
+route,date,date_end,ridership,num_days_in_month,ridership_per_day
+CityLink Blue,2023-04-01,2023-04-30,300000,30,10000
+80,2020-02-01,2020-02-29,29000,29,1000
+80,2020-03-01,2020-03-31,31000,31,1000
