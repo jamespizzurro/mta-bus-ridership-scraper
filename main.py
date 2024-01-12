@@ -21,9 +21,9 @@ def load_data(input_file):
     if not input_file.exists():
         print("Input file does not exist")
         return False
-    rides = pd.read_csv(input_file)
-    rides = clean_column_names(rides)
-    return rides
+    ridership = pd.read_csv(input_file)
+    ridership = clean_column_names(ridership)
+    return ridership
 
 
 def process_routes(served_routes):
@@ -36,8 +36,6 @@ def process_routes(served_routes):
         )
         for route in served_routes.split(",")
     ]
-    # Join the routes back together
-    return ", ".join(modified_routes)
     # Join the routes back together
     return ", ".join(modified_routes)
 
@@ -87,11 +85,11 @@ def upload_to_s3(input_file, output_file="mta_bus_ridership.parquet"):
         print("Input file does not exist")
         return False
 
-    rides = pd.read_csv(input_file)
+    ridership = pd.read_csv(input_file)
 
     # Convert DataFrame to parquet
     parquet_file = output_file
-    rides.to_parquet(parquet_file)
+    ridership.to_parquet(parquet_file)
 
     # Initialize the S3 client
     s3 = boto3.client('s3')
@@ -140,9 +138,9 @@ def check_for_directories():
 @Flow
 def data_transform(
 
-    node_script_path,
-    input_path,
-    output_path,
+    node_script_path="node/index.js",
+    input_path="data/raw/mta_bus_ridership.csv",
+    output_path="data/processed/mta_bus_ridership.csv",
     to_s3=False,
 ):
     # Check for directories
